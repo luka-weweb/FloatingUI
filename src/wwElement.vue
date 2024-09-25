@@ -6,14 +6,6 @@
       @click="dialogOpen = !dialogOpen"
     />
     <wwElement
-      v-if="this.content.overlay"
-      v-bind="this.content.elementOverlay"
-      :teleport="this.content.teleport"
-      :escapeCloses="this.content.escapeCloses"
-      :open="this.isDialogOpen"
-      style="z-index: 1"
-    />
-    <wwElement
       v-bind="this.content.elementContent"
       :type="this.content.type"
       :styleSettings="this.styleSettings"

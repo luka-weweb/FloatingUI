@@ -1,7 +1,7 @@
 export default {
   editor: {
     label: {
-      en: "DialogRoot",
+      en: "Dropdown",
     },
     icon: "view-grid",
   },
@@ -10,16 +10,10 @@ export default {
       hidden: true,
       defaultValue: {
         isWwObject: true,
-        type: "63912cf2-b4fe-4cf8-aa7e-e6f29bf4157f",
+        type: "3e52c1cd-ede7-4706-bd25-f7286a86ce86",
       },
     },
-    elementOverlay: {
-      hidden: true,
-      defaultValue: {
-        isWwObject: true,
-        type: "7572eedc-3d73-43e1-8d16-bf977b0c8e05",
-      },
-    },
+
     elementContent: {
       hidden: true,
       defaultValue: {
