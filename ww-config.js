@@ -1,35 +1,54 @@
 export default {
   editor: {
     label: {
-      en: "Dropdown",
+      en: "DialogRoot",
     },
-    icon: "navigator-dropdown",
-    navigator: {
-      groups: ["Trigger", "Dropdown"],
-    },
+    icon: "view-grid",
   },
-  actions: [{ label: 'Close dropdown', action: 'closeDropdown' }],
   properties: {
-    triggerType: {
+    elementTrigger: {
+      hidden: true,
+      defaultValue: {
+        isWwObject: true,
+        type: "63912cf2-b4fe-4cf8-aa7e-e6f29bf4157f",
+      },
+    },
+    elementOverlay: {
+      hidden: true,
+      defaultValue: {
+        isWwObject: true,
+        type: "7572eedc-3d73-43e1-8d16-bf977b0c8e05",
+      },
+    },
+    elementContent: {
+      hidden: true,
+      defaultValue: {
+        isWwObject: true,
+        type: "3049f8aa-e796-4a28-aafd-a282baab589e",
+      },
+    },
+    type: {
       label: {
-        en: "Trigger",
+        en: "Type",
       },
       type: "TextSelect",
-      defaultValue: "click",
+      defaultValue: "dialog",
       options: {
         options: [
-          { value: "click", label: { en: "Click" } },
-          { value: "hover", label: { en: "Hover" } },
-          { value: "right-click", label: { en: "Right click" } }
+          { value: "dialog", label: { en: "Dialog" } },
+          { value: "modal", label: { en: "Modal" } },
+          { value: "sheet", label: { en: "Sheet" } },
+          { value: "drawer", label: { en: "Drawer" } },
+          { value: "alert", label: { en: "Alert" } },
         ],
       },
     },
-    position: {
+    sheetSide: {
       label: {
-        en: "Position",
+        en: "Side",
       },
       type: "TextSelect",
-      defaultValue: "bottom",
+      defaultValue: "dialog",
       options: {
         options: [
           { value: "top", label: { en: "Top" } },
@@ -38,149 +57,113 @@ export default {
           { value: "left", label: { en: "Left" } },
         ],
       },
-    },
-    alignment: {
-      label: { en: "Align" },
-      type: "TextRadioGroup",
-      options: (content) => {
-        if (content.position === "top" || content.position === "bottom") {
-          return {
-            choices: [
-              {
-                value: "start",
-                title: { en: "Start" },
-                icon: "align-left",
-              },
-              {
-                value: "center",
-                title: { en: "Center" },
-                icon: "align-center",
-              },
-              { value: "end", title: { en: "End" }, icon: "align-right" },
-            ],
-          };
-        } else {
-          return {
-            choices: [
-              {
-                value: "start",
-                title: { en: "Start" },
-                icon: "align-y-start",
-              },
-              {
-                value: "center",
-                title: { en: "Center" },
-                icon: "align-y-center",
-              },
-              { value: "end", title: { en: "End" }, icon: "align-y-end" },
-            ],
-          };
-        }
+      hidden: (content) => {
+        return content.type !== "sheet";
       },
-      defaultValue: "start",
-      classes: true,
-      states: true,
     },
-    offsetX: {
-      type: "Length",
+    modalAlignment: {
       label: {
-        en: "Offset (x)",
-        fr: "Taille",
+        en: "Align",
       },
-      bindable: true,
+      type: "TextSelect",
+      defaultValue: "dialog",
       options: {
-        unitChoices: [
-          { value: "px", label: "px", min: 1, max: 1000 },
-          { value: "%", label: "%", min: 1, max: 100 },
+        options: [
+          { value: "top", label: { en: "Top" } },
+          { value: "center", label: { en: "Center" } },
+          { value: "bottom", label: { en: "Bottom" } },
         ],
-        noRange: true,
-        useVar: true,
       },
-      bindingValidation: {
-        type: 'string',
-        tooltip: 'A string that defines size of offset in px or %',
-      }
+      hidden: (content) => {
+        return content.type !== "modal";
+      },
     },
-    offsetY: {
-      type: "Length",
+    modalSide: {
       label: {
-        en: "Offset (y)",
-        fr: "Taille",
+        en: "Side",
       },
-      bindable: true,
+      type: "TextSelect",
+      defaultValue: "dialog",
       options: {
-        unitChoices: [
-          { value: "px", label: "px", min: 1, max: 1000 },
-          { value: "%", label: "%", min: 1, max: 100 },
+        options: [
+          {
+            value: "left",
+            label: { en: "Left" },
+          },
+          {
+            value: "center",
+            label: { en: "Center" },
+          },
+          { value: "right", label: { en: "Right" } },
         ],
-        noRange: true,
-        useVar: true,
       },
-      bindingValidation: {
-        type: 'string',
-        tooltip: 'A string that defines size of offset in px or %',
-      }
-    },
-    triggerLayout: {
-      hidden: true,
-      defaultValue: [],
-      navigator: {
-        group: "Trigger",
+      hidden: (content) => {
+        return content.type !== "modal";
       },
     },
-    dropdownLayout: {
-      hidden: true,
-      defaultValue: [],
-      navigator: {
-        group: "Dropdown",
-      },
-    },
-    dropdownZIndex: {
-      label: 'Dropdown z-index',
-      type: 'Number',
-      options: {
-        min: 0,
-        max: 100,
-      },
-      responsive: true,
-      states: true,
-      classes: true,
-      bindable: true,
-      /* wwEditor:start */
-      bindingValidation: {
-        type: "number",
-        tooltip: "A number that defines the Z-index of the dropdown.",
-      },
-    },
-    disabled: {
-      type: "OnOff",
+
+    teleport: {
       label: {
-        en: "Disabled",
+        en: "Teleport",
       },
-      bindable: true,
-      /* wwEditor:start */
-      bindingValidation: {
-        type: "boolean",
-        tooltip: "A boolean that defines the disabled state`",
-      },
-    },
-    animated: {
       type: "OnOff",
-      label: {
-        en: "Animated",
-      },
       bindable: true,
-      /* wwEditor:start */
-      bindingValidation: {
-        type: "boolean",
-        tooltip: "A boolean that defines whether element is animated",
-      },
+      defaultValue: false,
     },
-    forceDisplayEditor: {
-      type: "OnOff",
+    modal: {
       label: {
-        en: "Force display in editor",
-      }
+        en: "Modal",
+      },
+      type: "OnOff",
+      bindable: true,
+      defaultValue: false,
+    },
+
+    manualControl: {
+      label: {
+        en: "Manual control",
+      },
+      type: "OnOff",
+      bindable: true,
+      defaultValue: false,
+    },
+    value: {
+      label: {
+        en: "Value",
+      },
+      hidden: (content) => {
+        return !content.manualControl;
+      },
+      type: "OnOff",
+      bindable: true,
+      defaultValue: true,
+    },
+    trigger: {
+      label: {
+        en: "Trigger",
+      },
+      hidden: (content) => {
+        return content.manualControl;
+      },
+      type: "OnOff",
+      bindable: true,
+      defaultValue: false,
+    },
+    overlay: {
+      label: {
+        en: "Overlay",
+      },
+      type: "OnOff",
+      bindable: true,
+      defaultValue: false,
+    },
+    escapeClose: {
+      label: {
+        en: "ESC closes",
+      },
+      type: "OnOff",
+      bindable: true,
+      defaultValue: false,
     },
   },
 };
