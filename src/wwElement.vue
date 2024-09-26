@@ -3,6 +3,7 @@
     <wwElement
       v-bind="this.content.elementTrigger"
       @click="dialogOpen = !dialogOpen"
+      ref="reference"
     />
     <wwElement
       v-bind="this.content.elementContent"
@@ -14,11 +15,15 @@
       @keyup.escape="
         this.content.escapeCloses ? (this.dialogOpen = false) : null
       "
+      ref="floating"
     />
   </div>
 </template>
 
 <script>
+import { useFloating, offset, flip, shift } from "@floating-ui/vue";
+import { ref } from "vue";
+
 export default {
   props: {
     content: { type: Object, required: true },
@@ -52,6 +57,13 @@ export default {
         // appEl.style.pointerEvents = "auto";
       }
     },
+  },
+  mounted() {
+    // Inside your component
+    useFloating(this.reference, floating, {
+      placement: "right",
+      middleware: [offset(10), flip(), shift()],
+    });
   },
 };
 </script>
