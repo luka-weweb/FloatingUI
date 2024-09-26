@@ -1,9 +1,16 @@
 <template>
   <div>
+    <div
+      ref="reference"
+      style="width: 100px; height: 100px; background-color: red"
+    ></div>
+    <div
+      ref="floating"
+      style="width: 100px; height: 100px; background-color: red"
+    ></div>
     <wwElement
       v-bind="this.content.elementTrigger"
       @click="dialogOpen = !dialogOpen"
-      ref="reference"
     />
     <wwElement
       v-bind="this.content.elementContent"
@@ -15,7 +22,6 @@
       @keyup.escape="
         this.content.escapeCloses ? (this.dialogOpen = false) : null
       "
-      ref="floating"
     />
   </div>
 </template>
@@ -60,7 +66,7 @@ export default {
   },
   mounted() {
     // Inside your component
-    useFloating(this.reference, this.floating, {
+    useFloating(this.$refs.reference, this.$refs.floating, {
       placement: "right",
       middleware: [offset(10), flip(), shift()],
     });
