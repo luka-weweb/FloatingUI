@@ -17,7 +17,7 @@ export default {
       hidden: true,
       defaultValue: {
         isWwObject: true,
-        type: "3049f8aa-e796-4a28-aafd-a282baab589e",
+        type: "b94af123-0a1f-4110-bbfc-6caaad3e5a19",
       },
     },
     defaultValue: {
