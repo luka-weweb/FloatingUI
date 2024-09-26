@@ -60,7 +60,7 @@ export default {
   },
   mounted() {
     // Inside your component
-    useFloating(this.reference, floating, {
+    useFloating(this.reference, this.floating, {
       placement: "right",
       middleware: [offset(10), flip(), shift()],
     });
