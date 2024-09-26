@@ -13,7 +13,6 @@ export default {
         type: "3e52c1cd-ede7-4706-bd25-f7286a86ce86",
       },
     },
-
     elementContent: {
       hidden: true,
       defaultValue: {
@@ -21,81 +20,22 @@ export default {
         type: "3049f8aa-e796-4a28-aafd-a282baab589e",
       },
     },
-    type: {
+    defaultValue: {
       label: {
-        en: "Type",
+        en: "Default",
       },
-      type: "TextSelect",
-      defaultValue: "dialog",
-      options: {
-        options: [
-          { value: "dialog", label: { en: "Dialog" } },
-          { value: "modal", label: { en: "Modal" } },
-          { value: "sheet", label: { en: "Sheet" } },
-          { value: "drawer", label: { en: "Drawer" } },
-          { value: "alert", label: { en: "Alert" } },
-        ],
-      },
+      type: "OnOff",
+      bindable: true,
+      defaultValue: false,
     },
-    sheetSide: {
+    disabled: {
       label: {
-        en: "Side",
+        en: "Disabled",
       },
-      type: "TextSelect",
-      defaultValue: "dialog",
-      options: {
-        options: [
-          { value: "top", label: { en: "Top" } },
-          { value: "right", label: { en: "Right" } },
-          { value: "bottom", label: { en: "Bottom" } },
-          { value: "left", label: { en: "Left" } },
-        ],
-      },
-      hidden: (content) => {
-        return content.type !== "sheet";
-      },
+      type: "OnOff",
+      bindable: true,
+      defaultValue: false,
     },
-    modalAlignment: {
-      label: {
-        en: "Align",
-      },
-      type: "TextSelect",
-      defaultValue: "dialog",
-      options: {
-        options: [
-          { value: "top", label: { en: "Top" } },
-          { value: "center", label: { en: "Center" } },
-          { value: "bottom", label: { en: "Bottom" } },
-        ],
-      },
-      hidden: (content) => {
-        return content.type !== "modal";
-      },
-    },
-    modalSide: {
-      label: {
-        en: "Side",
-      },
-      type: "TextSelect",
-      defaultValue: "dialog",
-      options: {
-        options: [
-          {
-            value: "left",
-            label: { en: "Left" },
-          },
-          {
-            value: "center",
-            label: { en: "Center" },
-          },
-          { value: "right", label: { en: "Right" } },
-        ],
-      },
-      hidden: (content) => {
-        return content.type !== "modal";
-      },
-    },
-
     teleport: {
       label: {
         en: "Teleport",
@@ -112,52 +52,116 @@ export default {
       bindable: true,
       defaultValue: false,
     },
-
-    manualControl: {
-      label: {
-        en: "Manual control",
-      },
-      type: "OnOff",
-      bindable: true,
-      defaultValue: false,
-    },
-    value: {
-      label: {
-        en: "Value",
-      },
-      hidden: (content) => {
-        return !content.manualControl;
-      },
-      type: "OnOff",
-      bindable: true,
-      defaultValue: true,
-    },
-    trigger: {
+    triggerType: {
       label: {
         en: "Trigger",
       },
-      hidden: (content) => {
-        return content.manualControl;
+      type: "TextSelect",
+      defaultValue: "click",
+      options: {
+        options: [
+          { value: "click", label: { en: "Click" } },
+          { value: "hover", label: { en: "Hover" } },
+          { value: "right-click", label: { en: "Right click" } },
+        ],
       },
-      type: "OnOff",
-      bindable: true,
-      defaultValue: false,
     },
-    overlay: {
+    position: {
       label: {
-        en: "Overlay",
+        en: "Position",
       },
-      type: "OnOff",
-      bindable: true,
-      defaultValue: false,
+      type: "TextSelect",
+      defaultValue: "bottom",
+      options: {
+        options: [
+          { value: "top", label: { en: "Top" } },
+          { value: "right", label: { en: "Right" } },
+          { value: "bottom", label: { en: "Bottom" } },
+          { value: "left", label: { en: "Left" } },
+        ],
+      },
     },
-    escapeClose: {
-      label: {
-        en: "ESC closes",
+    alignment: {
+      label: { en: "Align" },
+      type: "TextRadioGroup",
+      options: (content) => {
+        if (content.position === "top" || content.position === "bottom") {
+          return {
+            choices: [
+              {
+                value: "start",
+                title: { en: "Start" },
+                icon: "align-left",
+              },
+              {
+                value: "center",
+                title: { en: "Center" },
+                icon: "align-center",
+              },
+              { value: "end", title: { en: "End" }, icon: "align-right" },
+            ],
+          };
+        } else {
+          return {
+            choices: [
+              {
+                value: "start",
+                title: { en: "Start" },
+                icon: "align-y-start",
+              },
+              {
+                value: "center",
+                title: { en: "Center" },
+                icon: "align-y-center",
+              },
+              { value: "end", title: { en: "End" }, icon: "align-y-end" },
+            ],
+          };
+        }
       },
-      type: "OnOff",
+      defaultValue: "start",
+      classes: true,
+      states: true,
+    },
+    offsetX: {
+      type: "Length",
+      label: {
+        en: "Offset (x)",
+        fr: "Taille",
+      },
       bindable: true,
-      defaultValue: false,
+      options: {
+        unitChoices: [
+          { value: "px", label: "px", min: 1, max: 1000 },
+          { value: "%", label: "%", min: 1, max: 100 },
+        ],
+        noRange: true,
+        useVar: true,
+      },
+      bindingValidation: {
+        type: "string",
+        tooltip: "A string that defines size of offset in px or %",
+      },
+    },
+    offsetY: {
+      type: "Length",
+      label: {
+        en: "Offset (y)",
+        fr: "Taille",
+      },
+      bindable: true,
+      options: {
+        unitChoices: [
+          { value: "px", label: "px", min: 1, max: 1000 },
+          { value: "%", label: "%", min: 1, max: 100 },
+        ],
+        noRange: true,
+        useVar: true,
+      },
+      bindingValidation: {
+        type: "string",
+        tooltip: "A string that defines size of offset in px or %",
+      },
     },
   },
 };
