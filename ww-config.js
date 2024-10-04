@@ -1,3 +1,5 @@
+import dropdownOptions from "./src/dropdownOptions";
+
 export default {
   editor: {
     label: {
@@ -20,5 +22,6 @@ export default {
         type: "b94af123-0a1f-4110-bbfc-6caaad3e5a19",
       },
     },
+    ...dropdownOptions,
   },
 };

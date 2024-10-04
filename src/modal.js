@@ -1,10 +1,16 @@
 // Modal utility to block interactions and prevent scroll except for a specified element
+import { watch } from "vue";
 
 let activeModal = null;
 let originalBodyStyle = null;
 let overlay = null;
 
-function blockInteractions(excludeElement, onOverlayClick) {
+function blockInteractions(excludeElement, onOverlayClick, isBlocking = true) {
+  if (!isBlocking) {
+    unblockInteractions();
+    return;
+  }
+
   if (activeModal) {
     console.warn(
       "A modal is already active. Close it before opening a new one."
@@ -36,10 +42,6 @@ function blockInteractions(excludeElement, onOverlayClick) {
     }
   });
 
-  // Allow interactions on the excluded element
-  if (excludeElement) {
-    excludeElement.style.pointerEvents = "auto"; // Ensure excluded element can be interacted with
-  }
   // Find the #app element in the front document
   const appElement = frontDocument.querySelector("#app");
 
@@ -85,3 +87,22 @@ function unblockInteractions() {
 }
 
 export { blockInteractions, unblockInteractions };
+
+// Add this new function for Vue components to use
+export function useModalBlocking(
+  isBlockingRef,
+  excludeElement,
+  onOverlayClick
+) {
+  watch(
+    isBlockingRef,
+    (newValue) => {
+      if (newValue) {
+        blockInteractions(excludeElement, onOverlayClick);
+      } else {
+        unblockInteractions();
+      }
+    },
+    { immediate: true }
+  );
+}
